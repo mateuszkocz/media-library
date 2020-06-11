@@ -1,7 +1,7 @@
 import { CSSReset, Heading, ThemeProvider } from "@chakra-ui/core"
 import styled from "@emotion/styled"
 import { Global, css } from "@emotion/core"
-import * as React from "react"
+import React from "react"
 import { color } from "styled-system"
 import { theme } from "./theme"
 
