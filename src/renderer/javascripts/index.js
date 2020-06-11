@@ -3,8 +3,6 @@ import React from 'react';
 import ReactDOM from "react-dom"
 import { App } from "./app.component.tsx"
 
-require('application.css')
-
 ipcRenderer.on('loaded', (event, data) => {
   ReactDOM.render(<App/>, document.getElementById("app"))
   document.getElementById('title').innerHTML = data.appName + ' App 2'
