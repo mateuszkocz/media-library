@@ -1,4 +1,4 @@
-describe('application launch', () => {
+describe("application launch", () => {
   beforeEach(() => app.start())
 
   afterEach(() => {
@@ -7,7 +7,7 @@ describe('application launch', () => {
     }
   })
 
-  test('shows an initial window', async () => {
+  test("shows an initial window", async () => {
     const count = await app.client.getWindowCount()
     expect(count).toBe(1)
   })

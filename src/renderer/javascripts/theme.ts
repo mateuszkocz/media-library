@@ -1,1 +1,1 @@
-export { theme } from "@chakra-ui/core";
+export { theme } from "@chakra-ui/core"
