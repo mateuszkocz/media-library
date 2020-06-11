@@ -1,0 +1,27 @@
+{
+  "name": "MediaLibrary",
+  "version": "0.1.0",
+  "description": "MediaLibrary application build with Electron",
+  "author": {
+    "name": "mateusz",
+    "email": ""
+  },
+  "repository": {},
+  "dependencies": {},
+  "license": "ISC",
+  "devDependencies": {
+    "bozon": "1.0.6",
+    "jest": "26.0.1",
+    "spectron": "11.0.0"
+  },
+  "build": {
+    "appId": "com.electron.medialibrary",
+    "win": {
+      "publish": null
+    },
+    "mac": {
+      "publish": null,
+      "category": "your.app.category.type"
+    }
+  }
+}
