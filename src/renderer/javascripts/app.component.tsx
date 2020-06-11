@@ -1,9 +1,9 @@
 import { CSSReset, Heading, ThemeProvider } from "@chakra-ui/core"
 import styled from "@emotion/styled"
 import { Global, css } from "@emotion/core"
-import React from "react"
 import { color } from "styled-system"
 import { theme } from "./theme"
+import React, { FunctionComponent } from "react"
 
 const MyBox = styled("section")(color)
 
@@ -44,7 +44,7 @@ const globalCss = css`
   }
 `
 
-export function App() {
+export const App: FunctionComponent = () => {
   return (
     <ThemeProvider theme={theme}>
       <CSSReset />
