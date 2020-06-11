@@ -13,7 +13,8 @@
     "@emotion/styled": "^10.0.27",
     "emotion-theming": "^10.0.27",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "styled-system": "^5.1.5"
   },
   "license": "ISC",
   "devDependencies": {
