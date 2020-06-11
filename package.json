@@ -7,12 +7,21 @@
     "email": ""
   },
   "repository": {},
-  "dependencies": {},
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/preset-react": "^7.10.1",
+    "@babel/preset-typescript": "^7.10.1",
+    "@hot-loader/react-dom": "^16.13.0",
+    "babel-loader": "^8.1.0",
     "bozon": "1.0.6",
     "jest": "26.0.1",
-    "spectron": "11.0.0"
+    "spectron": "11.0.0",
+    "typescript": "^3.9.5"
   },
   "build": {
     "appId": "com.electron.medialibrary",
