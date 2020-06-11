@@ -13,7 +13,6 @@ module.exports = {
             loader: "babel-loader",
             options: {
               presets: ["@babel/preset-react", "@babel/preset-typescript"],
-              plugins: ["react-hot-loader/babel"]
             }
           }
         }

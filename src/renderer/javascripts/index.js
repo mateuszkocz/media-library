@@ -1,7 +1,7 @@
 import { ipcRenderer } from 'electron'
 import React from 'react';
 import ReactDOM from "react-dom"
-import App from "./app.component.tsx"
+import { App } from "./app.component.tsx"
 
 require('application.css')
 
