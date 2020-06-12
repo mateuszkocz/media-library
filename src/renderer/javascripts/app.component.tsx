@@ -1,46 +1,19 @@
-import { CSSReset, Heading, ThemeProvider } from "@chakra-ui/core"
-import styled from "@emotion/styled"
-import { Global, css } from "@emotion/core"
-import { color } from "styled-system"
-import { theme } from "./theme"
+import { CSSReset, ThemeProvider } from "@chakra-ui/core"
+import { css, Global } from "@emotion/core"
 import React, { FunctionComponent } from "react"
-
-const MyBox = styled("section")(color)
+import { theme } from "./theme"
+import { Video } from "./video.component"
 
 const globalCss = css`
   html,
   body {
     padding: 0;
     margin: 0;
-    height: 100%;
-    overflow: hidden;
+    min-height: 100%;
   }
 
   body {
     font-family: -apple-system, "Helvetica Neue", Helvetica, sans-serif;
-  }
-
-  .message {
-    position: absolute;
-    width: 500px;
-    height: 250px;
-    top: 50%;
-    left: 50%;
-    color: #777;
-    font-weight: 200;
-    text-align: center;
-    margin-top: -125px;
-    margin-left: -250px;
-  }
-
-  .message h1 {
-    font-size: 50px;
-    font-weight: 100;
-    color: #333;
-  }
-
-  .message div {
-    margin-bottom: 10px;
   }
 `
 
@@ -49,10 +22,7 @@ export const App: FunctionComponent = () => {
     <ThemeProvider theme={theme}>
       <CSSReset />
       <Global styles={globalCss} />
-      <Heading as="h1">Hello World!</Heading>
-      <MyBox color="green.100" bg="blue.300">
-        Emotion styled
-      </MyBox>
+      <Video />
     </ThemeProvider>
   )
 }
