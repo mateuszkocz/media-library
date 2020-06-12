@@ -7,15 +7,15 @@ import {
   FormLabel,
   Input,
   Stack,
+  useDisclosure,
 } from "@chakra-ui/core"
-import React, { FunctionComponent, useState } from "react"
+import React, { FunctionComponent } from "react"
 
 export const MainMenu: FunctionComponent = () => {
-  // FIXME: Obviously.
-  const [allMenuVisible, setAllMenuVisibility] = useState(false)
-  const [videosMenuVisible, setVideoMenuVisibility] = useState(false)
-  const [musicMenuVisible, setMusicMenuVisibility] = useState(false)
-  const [imagesMenuVisible, setImagesMenuVisibility] = useState(false)
+  const { isOpen: libraryVisible, onToggle: toggleLibrary } = useDisclosure()
+  const { isOpen: videosVisible, onToggle: toggleVideos } = useDisclosure()
+  const { isOpen: musicVisible, onToggle: toggleMusic } = useDisclosure()
+  const { isOpen: imagesVisible, onToggle: toggleImages } = useDisclosure()
   return (
     <Stack minWidth="400px" p="3">
       <FormControl>
@@ -30,10 +30,8 @@ export const MainMenu: FunctionComponent = () => {
       <Flex justify="space-between" direction="column" height="100%">
         <Stack>
           <Stack>
-            <Button onClick={() => setAllMenuVisibility(!allMenuVisible)}>
-              Library
-            </Button>
-            <Collapse isOpen={allMenuVisible}>
+            <Button onClick={toggleLibrary}>Library</Button>
+            <Collapse isOpen={libraryVisible}>
               <Stack>
                 <Button>All</Button>
                 <Button>Favourites</Button>
@@ -43,10 +41,8 @@ export const MainMenu: FunctionComponent = () => {
             </Collapse>
           </Stack>
           <Stack>
-            <Button onClick={() => setVideoMenuVisibility(!videosMenuVisible)}>
-              Videos
-            </Button>
-            <Collapse isOpen={videosMenuVisible}>
+            <Button onClick={toggleVideos}>Videos</Button>
+            <Collapse isOpen={videosVisible}>
               <Stack>
                 <Button>All</Button>
                 <Button>Favourites</Button>
@@ -57,10 +53,8 @@ export const MainMenu: FunctionComponent = () => {
           </Stack>
 
           <Stack>
-            <Button onClick={() => setMusicMenuVisibility(!musicMenuVisible)}>
-              Music
-            </Button>
-            <Collapse isOpen={musicMenuVisible}>
+            <Button onClick={toggleMusic}>Music</Button>
+            <Collapse isOpen={musicVisible}>
               <Stack>
                 <Button>All</Button>
                 <Button>Favourites</Button>
@@ -70,10 +64,8 @@ export const MainMenu: FunctionComponent = () => {
             </Collapse>
           </Stack>
           <Stack>
-            <Button onClick={() => setImagesMenuVisibility(!imagesMenuVisible)}>
-              Images
-            </Button>
-            <Collapse isOpen={imagesMenuVisible}>
+            <Button onClick={toggleImages}>Images</Button>
+            <Collapse isOpen={imagesVisible}>
               <Stack>
                 <Button>All</Button>
                 <Button>Favourites</Button>
