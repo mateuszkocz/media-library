@@ -1,8 +1,9 @@
-import { CSSReset, ThemeProvider } from "@chakra-ui/core"
+import { CSSReset, Flex, ThemeProvider } from "@chakra-ui/core"
 import { css, Global } from "@emotion/core"
 import React, { FunctionComponent } from "react"
+import { Content } from "./content.component"
+import { MainMenu } from "./main-menu.component"
 import { theme } from "./theme"
-import { Videos } from "./videos.component"
 
 const globalCss = css`
   html,
@@ -22,7 +23,10 @@ export const App: FunctionComponent = () => {
     <ThemeProvider theme={theme}>
       <CSSReset />
       <Global styles={globalCss} />
-      <Videos />
+      <Flex height="100vh" width="100vw">
+        <MainMenu />
+        <Content />
+      </Flex>
     </ThemeProvider>
   )
 }

@@ -6,6 +6,8 @@ import {
   Spinner,
   Text,
   SimpleGrid,
+  Stack,
+  Flex,
 } from "@chakra-ui/core"
 import { remote } from "electron"
 import React, { FunctionComponent, useState } from "react"
@@ -54,6 +56,9 @@ export const Videos: FunctionComponent = () => {
   const [loading, setLoading] = useState(false)
   const [videos, setVideosList] = useState<FileInfo[]>([])
 
+  const empty = !videos.length
+  const promptVisible = empty && !loading
+
   const openFiles = async () => {
     const result = await remote.dialog.showOpenDialog({
       properties: ["openFile", "multiSelections", "openDirectory"],
@@ -71,25 +76,50 @@ export const Videos: FunctionComponent = () => {
   }
 
   return (
-    <section>
-      <Heading as="h1">Videos</Heading>
-      {loading && <Spinner />}
+    <Stack height="100%">
+      <Flex justifyContent="space-between">
+        <Heading as="h1">Videos</Heading>
+        <Button onClick={openFiles}>Add Videos</Button>
+      </Flex>
+
+      {loading && (
+        <Flex height="100%" align="center" justify="center">
+          <Spinner size="xl" />
+        </Flex>
+      )}
+
+      {/* TODO: Move elsewhere. This is not a place for this component. */}
       {currentVideoPath && <video controls src={currentVideoPath} />}
-      <SimpleGrid minChildWidth="120px" spacing="40px">
-        {videos.map(({ path, duration, thumbnail }) => {
-          const playVideo = () => setCurrentVideoPath(path)
-          return (
-            <Box key={path}>
-              <Image src={thumbnail} alt="" />
-              <Text>{path}</Text>
-              <Text>duration: {duration / 60}</Text>
-              <Button onClick={playVideo}>Play</Button>
-            </Box>
-          )
-        })}
-      </SimpleGrid>
-      <Button onClick={openFiles}>Open files</Button>
+
+      {!empty && (
+        <SimpleGrid minChildWidth="120px" spacing="40px">
+          {videos.map(({ path, duration, thumbnail }) => {
+            const playVideo = () => setCurrentVideoPath(path)
+            return (
+              <Box key={path}>
+                <Image src={thumbnail} alt="" />
+                <Text>{path}</Text>
+                <Text>duration: {duration / 60}</Text>
+                <Button onClick={playVideo}>Play</Button>
+              </Box>
+            )
+          })}
+        </SimpleGrid>
+      )}
+
+      {promptVisible && (
+        <Flex height="100%" justify="center" align="center">
+          <Stack aria-labelledby="prompt action">
+            <Text id="prompt" fontSize="xl">
+              There are no videos on your list just yet
+            </Text>
+            <Button id="action" onClick={openFiles}>
+              Add some
+            </Button>
+          </Stack>
+        </Flex>
+      )}
       <OffScreen />
-    </section>
+    </Stack>
   )
 }
