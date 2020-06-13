@@ -6,10 +6,12 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Link,
   Stack,
   useDisclosure,
 } from "@chakra-ui/core"
 import React, { FunctionComponent } from "react"
+import { Link as ReachLink } from "@reach/router"
 
 export const MainMenu: FunctionComponent = () => {
   const { isOpen: libraryVisible, onToggle: toggleLibrary } = useDisclosure()
@@ -33,7 +35,9 @@ export const MainMenu: FunctionComponent = () => {
             <Button onClick={toggleLibrary}>Library</Button>
             <Collapse isOpen={libraryVisible}>
               <Stack>
-                <Button>All</Button>
+                <Link as={ReachLink} to="/">
+                  All
+                </Link>
                 <Button>Favourites</Button>
                 <Button>Highest score</Button>
                 <Divider />
@@ -44,7 +48,9 @@ export const MainMenu: FunctionComponent = () => {
             <Button onClick={toggleVideos}>Videos</Button>
             <Collapse isOpen={videosVisible}>
               <Stack>
-                <Button>All</Button>
+                <Link as={ReachLink} to="/videos">
+                  All
+                </Link>
                 <Button>Favourites</Button>
                 <Button>Highest score</Button>
                 <Divider />
