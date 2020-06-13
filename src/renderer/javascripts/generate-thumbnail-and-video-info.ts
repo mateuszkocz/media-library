@@ -16,7 +16,7 @@ export const generateThumbnailAndVideoInfo = (
     video.src = URL.createObjectURL(new Blob([fileBuffer]))
     video.addEventListener("loadeddata", async () => {
       // TODO: investigate why it needs to wait. Generates black images without.
-      await new Promise((resolve) => setTimeout(resolve, 100))
+      await new Promise((resolve) => setTimeout(resolve, 500))
       const canvas = document.createElement("canvas")
       canvas.width = width
       canvas.height = height

@@ -75,6 +75,11 @@ export const Videos: FunctionComponent = () => {
     setLoading(false)
   }
 
+  const selectVideo = (path: string) => {
+    const file = fs.readFileSync(path)
+    setCurrentVideoPath(URL.createObjectURL(new Blob([file])))
+  }
+
   return (
     <Stack height="100%">
       <Flex justifyContent="space-between">
@@ -94,7 +99,7 @@ export const Videos: FunctionComponent = () => {
       {!empty && (
         <SimpleGrid minChildWidth="120px" spacing="40px">
           {videos.map(({ path, duration, thumbnail }) => {
-            const playVideo = () => setCurrentVideoPath(path)
+            const playVideo = () => selectVideo(path)
             return (
               <Box key={path}>
                 <Image src={thumbnail} alt="" />

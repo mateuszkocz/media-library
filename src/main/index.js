@@ -1,32 +1,36 @@
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow } from "electron"
+import serve from "electron-serve"
 
-const createWindow = () => {
+const loadURL = serve({ directory: "renderer" })
+
+const createWindow = async () => {
   // Create the browser window.
   let win = new BrowserWindow({
     title: CONFIG.name,
     width: CONFIG.width,
     height: CONFIG.height,
     webPreferences: {
-      nodeIntegration: true
-    }
+      nodeIntegration: true,
+    },
   })
 
   // and load the index.html of the app.
-  win.loadFile('renderer/index.html')
+  // win.loadFile("renderer/index.html")
+  await loadURL(win)
 
   // send data to renderer process
-  win.webContents.on('did-finish-load', () => {
-    win.webContents.send('loaded', {
+  win.webContents.on("did-finish-load", () => {
+    win.webContents.send("loaded", {
       appName: CONFIG.name,
       electronVersion: process.versions.electron,
       nodeVersion: process.versions.node,
-      chromiumVersion: process.versions.chrome
+      chromiumVersion: process.versions.chrome,
     })
   })
 
-  win.on('closed', () => {
+  win.on("closed", () => {
     win = null
   })
 }
@@ -37,15 +41,15 @@ const createWindow = () => {
 app.whenReady().then(createWindow)
 
 // Quit when all windows are closed.
-app.on('window-all-closed', () => {
+app.on("window-all-closed", () => {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
+  if (process.platform !== "darwin") {
     app.quit()
   }
 })
 
-app.on('activate', () => {
+app.on("activate", () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {
