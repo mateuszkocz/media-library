@@ -8,6 +8,8 @@ import {
   SimpleGrid,
   Stack,
   Flex,
+  IconButton,
+  Tooltip,
 } from "@chakra-ui/core"
 import { remote } from "electron"
 import React, { FunctionComponent, useState } from "react"
@@ -52,6 +54,9 @@ const generateFilesList = async (paths: string[]): Promise<Array<FileInfo>> => {
   return info
 }
 
+const getNameFromPath = (path: string): string =>
+  path.split("/").slice(-1)[0].replace(/\..+$/, "")
+
 export const Videos: FunctionComponent = () => {
   const [currentVideoPath, setCurrentVideoPath] = useState("")
   const [loading, setLoading] = useState(false)
@@ -81,8 +86,7 @@ export const Videos: FunctionComponent = () => {
     setCurrentVideoPath(URL.createObjectURL(new Blob([file])))
   }
 
-  const getNameFromPath = (path: string): string =>
-    path.split("/").slice(-1)[0].replace(/\..+$/, "")
+  const [favourite, setFavourite] = useState(false)
 
   return (
     <Stack height="100%">
@@ -107,12 +111,31 @@ export const Videos: FunctionComponent = () => {
             return (
               <Box key={path} p={4} borderWidth="1px" rounded="lg">
                 <Image src={thumbnail} alt="" />
-                <Text isTruncated>{getNameFromPath(path)}</Text>
+                <Text mt={2} mb={2} fontWeight="bold" isTruncated>
+                  {getNameFromPath(path)}
+                </Text>
                 <Text>
                   {humanizeDuration(duration * 1000, { round: true })}
                 </Text>
-                <Button onClick={playVideo}>Play</Button>
-                <Button>Like</Button>
+                <Flex justify="space-between">
+                  <Button onClick={playVideo}>Play</Button>
+                  <Tooltip
+                    label={
+                      favourite ? "Remove from favourites" : "Add to favourites"
+                    }
+                    placement="top"
+                  >
+                    <IconButton
+                      aria-label={
+                        favourite
+                          ? "Remove from favourites"
+                          : "Add to favourites"
+                      }
+                      icon={favourite ? "check" : "star"}
+                      onClick={() => setFavourite(!favourite)}
+                    />
+                  </Tooltip>
+                </Flex>
               </Box>
             )
           })}
