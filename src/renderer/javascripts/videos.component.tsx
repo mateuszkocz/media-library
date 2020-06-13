@@ -13,6 +13,7 @@ import { remote } from "electron"
 import React, { FunctionComponent, useState } from "react"
 import { generateThumbnailAndVideoInfo } from "./generate-thumbnail-and-video-info"
 import { OffScreen } from "./off-screen-area.component"
+import humanizeDuration from "humanize-duration"
 
 const fs = window.require("electron").remote.require("fs")
 
@@ -80,6 +81,9 @@ export const Videos: FunctionComponent = () => {
     setCurrentVideoPath(URL.createObjectURL(new Blob([file])))
   }
 
+  const getNameFromPath = (path: string): string =>
+    path.split("/").slice(-1)[0].replace(/\..+$/, "")
+
   return (
     <Stack height="100%">
       <Flex justifyContent="space-between">
@@ -97,15 +101,18 @@ export const Videos: FunctionComponent = () => {
       {currentVideoPath && <video controls src={currentVideoPath} />}
 
       {!empty && (
-        <SimpleGrid minChildWidth="120px" spacing="40px">
+        <SimpleGrid minChildWidth="260px" spacing="20px">
           {videos.map(({ path, duration, thumbnail }) => {
             const playVideo = () => selectVideo(path)
             return (
-              <Box key={path}>
+              <Box key={path} p={4} borderWidth="1px" rounded="lg">
                 <Image src={thumbnail} alt="" />
-                <Text>{path}</Text>
-                <Text>duration: {duration / 60}</Text>
+                <Text isTruncated>{getNameFromPath(path)}</Text>
+                <Text>
+                  {humanizeDuration(duration * 1000, { round: true })}
+                </Text>
                 <Button onClick={playVideo}>Play</Button>
+                <Button>Like</Button>
               </Box>
             )
           })}
