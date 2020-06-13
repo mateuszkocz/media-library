@@ -13,6 +13,24 @@ import {
 import React, { FunctionComponent } from "react"
 import { Link as ReachLink } from "@reach/router"
 
+const MenuItem: FunctionComponent<{ to: string }> = ({
+  to,
+  children,
+  ...props
+}) => (
+  <Link
+    {...props}
+    as={ReachLink}
+    to={to}
+    bg="gray.100"
+    p={2}
+    textAlign="center"
+    rounded="md"
+  >
+    {children}
+  </Link>
+)
+
 export const MainMenu: FunctionComponent = () => {
   const { isOpen: libraryVisible, onToggle: toggleLibrary } = useDisclosure()
   const { isOpen: videosVisible, onToggle: toggleVideos } = useDisclosure()
@@ -35,9 +53,7 @@ export const MainMenu: FunctionComponent = () => {
             <Button onClick={toggleLibrary}>Library</Button>
             <Collapse isOpen={libraryVisible}>
               <Stack>
-                <Link as={ReachLink} to="/">
-                  All
-                </Link>
+                <MenuItem to="/">All</MenuItem>
                 <Button>Favourites</Button>
                 <Button>Highest score</Button>
                 <Divider />
@@ -48,9 +64,7 @@ export const MainMenu: FunctionComponent = () => {
             <Button onClick={toggleVideos}>Videos</Button>
             <Collapse isOpen={videosVisible}>
               <Stack>
-                <Link as={ReachLink} to="/videos">
-                  All
-                </Link>
+                <MenuItem to="/videos">All</MenuItem>
                 <Button>Favourites</Button>
                 <Button>Highest score</Button>
                 <Divider />
@@ -82,7 +96,7 @@ export const MainMenu: FunctionComponent = () => {
           </Stack>
         </Stack>
         <Stack>
-          <Button>Settings</Button>
+          <MenuItem to="/settings">Settings</MenuItem>
           <Button>Help</Button>
         </Stack>
       </Flex>
