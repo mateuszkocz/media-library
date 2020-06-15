@@ -22,8 +22,11 @@
     "electron-store": "^5.2.0",
     "emotion-theming": "^10.0.27",
     "humanize-duration": "^3.23.1",
+    "pouchdb-adapter-idb": "^7.2.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "rxdb": "^9.1.0",
+    "rxjs": "^6.5.5",
     "styled-system": "^5.1.5"
   },
   "license": "ISC",
