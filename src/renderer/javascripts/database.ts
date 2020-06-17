@@ -1,8 +1,10 @@
-// FIXME: the whole file is a copy paste from the example.
+import { createRxDatabase, RxDatabase } from "rxdb"
+import pouchdbAdapterIdb from "pouchdb-adapter-idb"
+import { addRxPlugin } from "rxdb"
 
-import { createRxDatabase } from "rxdb"
+addRxPlugin(pouchdbAdapterIdb)
 
-const heroSchema = {
+const schema = {
   title: "hero schema",
   description: "describes a simple hero",
   version: 0,
@@ -22,24 +24,26 @@ const heroSchema = {
   required: ["color"],
 }
 
-let _getDatabase // cached
-export function getDatabase(name, adapter) {
-  if (!_getDatabase) _getDatabase = createDatabase(name, adapter)
-  return _getDatabase
+let database: Promise<RxDatabase>
+export const getDatabase = (): Promise<RxDatabase> => {
+  if (!database) {
+    database = createDatabase("heroes", "idb")
+  }
+  return database
 }
 
-async function createDatabase(name, adapter) {
+const createDatabase = async (
+  name: string,
+  adapter: string
+): Promise<RxDatabase> => {
   const db = await createRxDatabase({
     name,
     adapter,
-    password: "myLongAndStupidPassword",
+    password: "somepassword", // TODO: Find out if it's worth using a password.
   })
-
-  console.log("creating hero-collection..")
   await db.collection({
     name: "heroes",
-    schema: heroSchema,
+    schema: schema,
   })
-
   return db
 }

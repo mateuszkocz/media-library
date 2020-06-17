@@ -4,15 +4,10 @@ import { Settings } from "./settings.component"
 import { Videos } from "./videos.component"
 import { Router } from "@reach/router"
 import { getDatabase } from "./database"
-import pouchdb_adapter_idb from "pouchdb-adapter-idb"
-import { addRxPlugin } from "rxdb"
-
-// FIXME: The whole DB stuff should be elsewehere.
-addRxPlugin(pouchdb_adapter_idb)
 
 const Main: FunctionComponent<{ path: string }> = () => {
   const addHero = async function () {
-    const db = await getDatabase("heroesdb", "idb")
+    const db = await getDatabase()
     const name = "Zenek"
     const color = "Józefowicz"
     const obj = {
@@ -22,14 +17,15 @@ const Main: FunctionComponent<{ path: string }> = () => {
     }
     console.log("inserting hero:")
     console.dir(obj)
-    db.heroes.insert(obj)
+    await db.heroes.insert(obj)
   }
 
   const logHeros = async () => {
-    const db = await getDatabase("heroesdb", "idb")
-    const [first, second] = await db.heroes.find().exec()
-    console.log(first.name, second.name)
+    const db = await getDatabase()
+    const heroez = await db.heroes.find().exec()
+    console.log(heroez)
   }
+
   return (
     <div>
       Main
