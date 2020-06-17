@@ -4,6 +4,7 @@ import { Settings } from "./settings.component"
 import { Videos } from "./videos.component"
 import { Router } from "@reach/router"
 import { getDatabase } from "./database"
+import { Provider } from "rxdb-hooks"
 
 const Main: FunctionComponent<{ path: string }> = () => {
   const addHero = async function () {
