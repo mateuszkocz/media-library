@@ -1,36 +1,53 @@
 import { Box, Button } from "@chakra-ui/core"
-import React, { FunctionComponent } from "react"
+import { Router } from "@reach/router"
+import React, {
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useState,
+} from "react"
+import { Subscription } from "rxjs"
+import { DatabaseContext } from "./database.context"
 import { Settings } from "./settings.component"
 import { Videos } from "./videos.component"
-import { Router } from "@reach/router"
-import { getDatabase } from "./database"
+
+const useHeroes = () => {
+  const { db } = useContext(DatabaseContext)
+  const [heroes, setHeroes] = useState<any[]>([])
+  const addHero = async (hero: { name: string; color: string }) => {
+    void (await db)?.heroes.insert(hero)
+  }
+  useEffect(() => {
+    let subscription: Subscription
+    void db?.then((database) => {
+      subscription = database.heroes.find().$.subscribe((result) => {
+        const items = result.map((item) => item.toJSON())
+        setHeroes(items)
+      })
+    })
+    return () => {
+      if (subscription) {
+        subscription.unsubscribe()
+      }
+    }
+  }, [db])
+  return { heroes, addHero }
+}
 
 const Main: FunctionComponent<{ path: string }> = () => {
-  const addHero = async function () {
-    const db = await getDatabase()
-    const name = "Zenek"
-    const color = "Józefowicz"
-    const obj = {
-      id: "3",
-      name: name,
-      color: color,
-    }
-    console.log("inserting hero:")
-    console.dir(obj)
-    await db.heroes.insert(obj)
-  }
-
-  const logHeros = async () => {
-    const db = await getDatabase()
-    const heroez = await db.heroes.find().exec()
-    console.log(heroez)
-  }
+  const { heroes, addHero } = useHeroes()
 
   return (
     <div>
       Main
-      <Button onClick={addHero}>Add</Button>
-      <Button onClick={logHeros}>Log</Button>
+      {heroes.map((hero) => (
+        <div key={hero._id}>
+          {hero._id} | {hero.name} | {hero.color}
+        </div>
+      ))}
+      <Button onClick={() => addHero({ name: "Mozo", color: "blue" })}>
+        Add hero
+      </Button>
     </div>
   )
 }

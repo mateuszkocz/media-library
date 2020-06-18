@@ -10,10 +10,6 @@ const schema = {
   version: 0,
   type: "object",
   properties: {
-    id: {
-      type: "string",
-      primary: true,
-    },
     name: {
       type: "string",
     },
