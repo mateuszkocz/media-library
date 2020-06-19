@@ -16,51 +16,71 @@ import React, { FunctionComponent, useState } from "react"
 import { generateThumbnailAndVideoInfo } from "./generate-thumbnail-and-video-info"
 import { OffScreen } from "./off-screen-area.component"
 import humanizeDuration from "humanize-duration"
+import { useVideos } from "./use-videos.hook"
 
 const fs = window.require("electron").remote.require("fs")
+const path = window.require("electron").remote.require("path")
 
 // TODO: name's stupid. Change it.
 interface FileInfo {
-  path: string
-  thumbnail: string
+  file: {
+    directory: string
+    name: string
+    extension: string
+  }
+  title: string
+  thumbnails: string[]
   duration: number
 }
 
-const isFileOfFormat = (formats: string[]) => (filePath: string) =>
-  formats.some((format) => filePath.endsWith(format))
+const isFileOfFormat = (formats: string[]) => (filePath: string) => {
+  return formats.some((format) => filePath.endsWith(format))
+}
 
 const isVideo = isFileOfFormat(["mp4"])
 
 // TODO: messy shit. Split into paths creating fn and only then generate meta.
 const generateFilesList = async (paths: string[]): Promise<Array<FileInfo>> => {
   const info = []
-  for (const path of paths) {
-    const stats = fs.lstatSync(path)
+  for (const filePath of paths) {
+    const stats = fs.lstatSync(filePath)
     if (stats.isDirectory()) {
-      const dirFiles = fs.readdirSync(path)
-      const files = dirFiles.map((videoPath: string) => `${path}/${videoPath}`)
+      const dirFiles = fs.readdirSync(filePath)
+      const files = dirFiles.map(
+        (videoPath: string) => `${filePath}/${videoPath}`
+      )
       const items = await generateFilesList(files)
       info.push(...items)
-    } else if (isVideo(path)) {
+    } else if (isVideo(filePath)) {
       try {
-        const file = fs.readFileSync(path)
+        const file = fs.readFileSync(filePath)
         const fileInfo = await generateThumbnailAndVideoInfo(file)
-        info.push({ path, ...fileInfo })
+        const pathInfo = splitPathIntoParts(filePath)
+        info.push({ file: pathInfo, ...fileInfo, title: pathInfo.name })
       } catch {
-        console.log("Something went wrong with file", path)
+        console.log("Something went wrong with file", filePath)
       }
     }
   }
   return info
 }
 
-const getNameFromPath = (path: string): string =>
-  path.split("/").slice(-1)[0].replace(/\..+$/, "")
+const splitPathIntoParts = (filePath: string) => {
+  return {
+    name: path.basename(filePath).split(".").slice(0, -1).join("."),
+    directory: path.dirname(filePath),
+    extension: path.extname(filePath).replace(".", ""),
+  }
+}
+
+const createFullFilePath = (file: FileInfo["file"]): string => {
+  return `${file.directory}/${file.name}.${file.extension}`
+}
 
 export const Videos: FunctionComponent = () => {
+  const { videos, addVideos } = useVideos()
   const [currentVideoPath, setCurrentVideoPath] = useState("")
   const [loading, setLoading] = useState(false)
-  const [videos, setVideosList] = useState<FileInfo[]>([])
 
   const empty = !videos.length
   const promptVisible = empty && !loading
@@ -77,7 +97,8 @@ export const Videos: FunctionComponent = () => {
     })
     setLoading(true)
     const { filePaths } = result
-    setVideosList(await generateFilesList(filePaths))
+    const files = await generateFilesList(filePaths)
+    await addVideos(files)
     setLoading(false)
   }
 
@@ -106,13 +127,15 @@ export const Videos: FunctionComponent = () => {
 
       {!empty && (
         <SimpleGrid minChildWidth="260px" spacing="20px">
-          {videos.map(({ path, duration, thumbnail }) => {
-            const playVideo = () => selectVideo(path)
+          {videos.map((video) => {
+            const { duration, thumbnails, file, title } = video
+            const fullFilePath = createFullFilePath(file)
+            const playVideo = () => selectVideo(fullFilePath)
             return (
-              <Box key={path} p={4} borderWidth="1px" rounded="lg">
-                <Image src={thumbnail} alt="" />
+              <Box key={fullFilePath} p={4} borderWidth="1px" rounded="lg">
+                <Image src={thumbnails[0]} alt="" />
                 <Text mt={2} mb={2} fontWeight="bold" isTruncated>
-                  {getNameFromPath(path)}
+                  {title}
                 </Text>
                 <Text>
                   {humanizeDuration(duration * 1000, { round: true })}

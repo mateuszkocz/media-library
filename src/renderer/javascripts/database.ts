@@ -10,11 +10,19 @@ const schema = {
   version: 0,
   type: "object",
   properties: {
-    fileName: {
-      type: "string",
-    },
-    filePath: {
-      type: "string",
+    file: {
+      properties: {
+        name: {
+          type: "string",
+        },
+        directory: {
+          type: "string",
+        },
+        extension: {
+          type: "string",
+        },
+      },
+      required: ["name", "directory", "extension"],
     },
     title: {
       type: "string",
@@ -35,14 +43,7 @@ const schema = {
       },
     },
   },
-  required: [
-    "fileName",
-    "filePath",
-    "title",
-    "duration",
-    "favourite",
-    "thumbnails",
-  ],
+  required: ["file", "title", "duration", "favourite", "thumbnails"],
 }
 
 let database: Promise<RxDatabase>

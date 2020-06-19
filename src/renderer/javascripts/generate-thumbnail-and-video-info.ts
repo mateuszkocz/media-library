@@ -2,7 +2,7 @@ import { OFF_SCREEN_AREA_ID } from "./off-screen-area.component"
 
 export const generateThumbnailAndVideoInfo = (
   fileBuffer: Buffer
-): Promise<{ thumbnail: string; duration: number }> => {
+): Promise<{ thumbnails: string[]; duration: number }> => {
   return new Promise((resolve) => {
     // TODO: need to automatically set the height to make sure the proportions are preserved.
     const width = 300
@@ -26,7 +26,7 @@ export const generateThumbnailAndVideoInfo = (
       const dataUrl = canvas.toDataURL("image/png")
       const duration = video.duration
       video.remove()
-      resolve({ thumbnail: dataUrl, duration })
+      resolve({ thumbnails: [dataUrl], duration })
     })
   })
 }
