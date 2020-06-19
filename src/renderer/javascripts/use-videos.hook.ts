@@ -7,8 +7,8 @@ type WithId<T> = T & { _id: string }
 
 interface UseVideos {
   videos: Array<WithId<Video>>
-  addVideo: (video: Video) => void
-  addVideos: (videos: Array<Video>) => void
+  addVideo: (video: Video) => Promise<void>
+  addVideos: (videos: Array<Video>) => Promise<void>
 }
 
 export const useVideos = (): UseVideos => {
