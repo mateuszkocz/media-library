@@ -1,11 +1,9 @@
-// TODO: name's stupid. Change it.
+import { File } from "./file.interface"
+
 export interface Video {
-  file: {
-    directory: string
-    name: string
-    extension: string
-  }
+  file: File
   title: string
   thumbnails: string[]
   duration: number
+  favourite: boolean
 }

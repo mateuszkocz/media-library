@@ -30,7 +30,7 @@ const isVideo = isFileOfFormat(["mp4"])
 
 // TODO: messy shit. Split into paths creating fn and only then generate meta.
 const generateFilesList = async (paths: string[]): Promise<Array<Video>> => {
-  const info = []
+  const info: Video[] = []
   for (const filePath of paths) {
     const stats = fs.lstatSync(filePath)
     if (stats.isDirectory()) {
@@ -45,7 +45,12 @@ const generateFilesList = async (paths: string[]): Promise<Array<Video>> => {
         const file = fs.readFileSync(filePath)
         const fileInfo = await generateThumbnailAndVideoInfo(file)
         const pathInfo = splitPathIntoParts(filePath)
-        info.push({ file: pathInfo, ...fileInfo, title: pathInfo.name })
+        info.push({
+          file: pathInfo,
+          ...fileInfo,
+          title: pathInfo.name,
+          favourite: false,
+        })
       } catch {
         console.log("Something went wrong with file", filePath)
       }
@@ -96,8 +101,6 @@ export const Videos: FunctionComponent = () => {
     setCurrentVideoPath(URL.createObjectURL(new Blob([file])))
   }
 
-  const [favourite, setFavourite] = useState(false)
-
   return (
     <Stack height="100%">
       <Flex justifyContent="space-between">
@@ -117,7 +120,7 @@ export const Videos: FunctionComponent = () => {
       {!empty && (
         <SimpleGrid minChildWidth="260px" spacing="20px">
           {videos.map((video) => {
-            const { duration, thumbnails, file, title, _id } = video
+            const { duration, thumbnails, file, title, favourite, _id } = video
             const fullFilePath = createFullFilePath(file)
             const playVideo = () => selectVideo(fullFilePath)
             return (
@@ -144,7 +147,7 @@ export const Videos: FunctionComponent = () => {
                           : "Add to favourites"
                       }
                       icon={favourite ? "check" : "star"}
-                      onClick={() => setFavourite(!favourite)}
+                      onClick={() => console.log("TODO: Set Favourite")}
                     />
                   </Tooltip>
                 </Flex>
