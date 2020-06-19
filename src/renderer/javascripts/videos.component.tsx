@@ -1,37 +1,26 @@
 import {
   Box,
   Button,
-  Heading,
-  Image,
-  Spinner,
-  Text,
-  SimpleGrid,
-  Stack,
   Flex,
+  Heading,
   IconButton,
+  Image,
+  SimpleGrid,
+  Spinner,
+  Stack,
+  Text,
   Tooltip,
 } from "@chakra-ui/core"
 import { remote } from "electron"
+import humanizeDuration from "humanize-duration"
 import React, { FunctionComponent, useState } from "react"
 import { generateThumbnailAndVideoInfo } from "./generate-thumbnail-and-video-info"
 import { OffScreen } from "./off-screen-area.component"
-import humanizeDuration from "humanize-duration"
 import { useVideos } from "./use-videos.hook"
+import { Video } from "./video.interface"
 
 const fs = window.require("electron").remote.require("fs")
 const path = window.require("electron").remote.require("path")
-
-// TODO: name's stupid. Change it.
-interface FileInfo {
-  file: {
-    directory: string
-    name: string
-    extension: string
-  }
-  title: string
-  thumbnails: string[]
-  duration: number
-}
 
 const isFileOfFormat = (formats: string[]) => (filePath: string) => {
   return formats.some((format) => filePath.endsWith(format))
@@ -40,7 +29,7 @@ const isFileOfFormat = (formats: string[]) => (filePath: string) => {
 const isVideo = isFileOfFormat(["mp4"])
 
 // TODO: messy shit. Split into paths creating fn and only then generate meta.
-const generateFilesList = async (paths: string[]): Promise<Array<FileInfo>> => {
+const generateFilesList = async (paths: string[]): Promise<Array<Video>> => {
   const info = []
   for (const filePath of paths) {
     const stats = fs.lstatSync(filePath)
@@ -73,7 +62,7 @@ const splitPathIntoParts = (filePath: string) => {
   }
 }
 
-const createFullFilePath = (file: FileInfo["file"]): string => {
+const createFullFilePath = (file: Video["file"]): string => {
   return `${file.directory}/${file.name}.${file.extension}`
 }
 
@@ -128,11 +117,11 @@ export const Videos: FunctionComponent = () => {
       {!empty && (
         <SimpleGrid minChildWidth="260px" spacing="20px">
           {videos.map((video) => {
-            const { duration, thumbnails, file, title } = video
+            const { duration, thumbnails, file, title, _id } = video
             const fullFilePath = createFullFilePath(file)
             const playVideo = () => selectVideo(fullFilePath)
             return (
-              <Box key={fullFilePath} p={4} borderWidth="1px" rounded="lg">
+              <Box key={_id} p={4} borderWidth="1px" rounded="lg">
                 <Image src={thumbnails[0]} alt="" />
                 <Text mt={2} mb={2} fontWeight="bold" isTruncated>
                   {title}
