@@ -5,25 +5,50 @@ import { addRxPlugin } from "rxdb"
 addRxPlugin(pouchdbAdapterIdb)
 
 const schema = {
-  title: "hero schema",
-  description: "describes a simple hero",
+  title: "Videos",
+  description: "User's video store.",
   version: 0,
   type: "object",
   properties: {
-    name: {
+    fileName: {
       type: "string",
     },
-    color: {
+    filePath: {
       type: "string",
+    },
+    title: {
+      type: "string",
+      default: "",
+    },
+    duration: {
+      type: "number",
+    },
+    favourite: {
+      type: "boolean",
+      default: false,
+    },
+    thumbnails: {
+      type: "array",
+      default: [],
+      items: {
+        type: "string",
+      },
     },
   },
-  required: ["color"],
+  required: [
+    "fileName",
+    "filePath",
+    "title",
+    "duration",
+    "favourite",
+    "thumbnails",
+  ],
 }
 
 let database: Promise<RxDatabase>
 export const getDatabase = (): Promise<RxDatabase> => {
   if (!database) {
-    database = createDatabase("heroes", "idb")
+    database = createDatabase("media", "idb")
   }
   return database
 }
@@ -38,7 +63,7 @@ const createDatabase = async (
     password: "somepassword", // TODO: Find out if it's worth using a password.
   })
   await db.collection({
-    name: "heroes",
+    name: "videos",
     schema: schema,
   })
   return db
