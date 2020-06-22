@@ -76,7 +76,7 @@ export const MainMenu: FunctionComponent = () => {
             <Button onClick={toggleMusic}>Music</Button>
             <Collapse isOpen={musicVisible}>
               <Stack>
-                <Button>All</Button>
+                <MenuItem to="/music">All</MenuItem>
                 <Button>Favourites</Button>
                 <Button>Highest score</Button>
                 <Divider />
@@ -87,7 +87,7 @@ export const MainMenu: FunctionComponent = () => {
             <Button onClick={toggleImages}>Images</Button>
             <Collapse isOpen={imagesVisible}>
               <Stack>
-                <Button>All</Button>
+                <MenuItem to="/images">All</MenuItem>
                 <Button>Favourites</Button>
                 <Button>Highest score</Button>
                 <Divider />
