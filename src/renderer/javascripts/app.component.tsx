@@ -1,4 +1,4 @@
-import { CSSReset, Flex, ThemeProvider } from "@chakra-ui/core"
+import { CSSReset, Box, Flex, ThemeProvider } from "@chakra-ui/core"
 import { css, Global } from "@emotion/core"
 import React, { FunctionComponent } from "react"
 import { Content } from "./content.component"
@@ -20,12 +20,29 @@ const globalCss = css`
   }
 `
 
+const DragRegion = () => {
+  return (
+    <Box
+      style={{ WebkitAppRegion: "drag" }}
+      position={"fixed"}
+      top={0}
+      width={"50%"}
+      left={"25%"}
+      height={"10px"}
+      bg={"gray.200"}
+      roundedBottomLeft={"lg"}
+      roundedBottomRight={"lg"}
+    />
+  )
+}
+
 export const App: FunctionComponent = () => {
   return (
     <ThemeProvider theme={theme}>
       <DatabaseProvider db={getDatabase()}>
         <CSSReset />
         <Global styles={globalCss} />
+        <DragRegion />
         <Flex height="100vh" width="100vw">
           <MainMenu />
           <Content />

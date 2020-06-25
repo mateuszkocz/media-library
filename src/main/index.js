@@ -14,6 +14,7 @@ const createWindow = async () => {
     webPreferences: {
       nodeIntegration: true,
     },
+    titleBarStyle: "hiddenInset",
   })
 
   // and load the index.html of the app.
