@@ -8,7 +8,7 @@ import { AnimatePresence, motion } from "framer-motion"
 const FramerRouter: FunctionComponent = ({ children }) => (
   <Location>
     {({ location }) => (
-      <Box p="5" width="100%" position="relative" ml={"400px"}>
+      <Box p="5" width="100%">
         <AnimatePresence initial={false}>
           <Router key={location.key} location={location}>
             {children}

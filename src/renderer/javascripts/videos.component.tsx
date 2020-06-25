@@ -103,8 +103,7 @@ export const Videos: FunctionComponent = () => {
 
   return (
     <Stack height="100%">
-      <Flex justifyContent="space-between">
-        <Heading as="h1">Videos</Heading>
+      <Flex justifyContent="flex-end">
         <Button onClick={openFiles}>Add Videos</Button>
       </Flex>
 
