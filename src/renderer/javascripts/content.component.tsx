@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/core"
+import { Box, Heading } from "@chakra-ui/core"
 import { Router, Location } from "@reach/router"
 import React, { FunctionComponent } from "react"
 import { Settings } from "./settings.component"
@@ -36,11 +36,19 @@ const Page: FunctionComponent = ({ children }) => {
 }
 
 const MainPage: FunctionComponent<{ path: string }> = () => {
-  return <Page>Main</Page>
+  return (
+    <Page>
+      <Heading h={1}>All</Heading>
+    </Page>
+  )
 }
 
 const ImagesPage: FunctionComponent<{ path: string }> = () => {
-  return <Page>Images</Page>
+  return (
+    <Page>
+      <Heading h={1}>Images</Heading>
+    </Page>
+  )
 }
 
 const VideosPage: FunctionComponent<{ path: string }> = () => {
@@ -52,7 +60,11 @@ const VideosPage: FunctionComponent<{ path: string }> = () => {
 }
 
 const MusicPage: FunctionComponent<{ path: string }> = () => {
-  return <Page>Music</Page>
+  return (
+    <Page>
+      <Heading h={1}>Music</Heading>
+    </Page>
+  )
 }
 
 export const Content: FunctionComponent = () => {
