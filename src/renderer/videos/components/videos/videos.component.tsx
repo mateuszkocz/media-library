@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Flex,
-  Heading,
   IconButton,
   Image,
   SimpleGrid,
@@ -14,10 +13,10 @@ import {
 import { remote } from "electron"
 import humanizeDuration from "humanize-duration"
 import React, { FunctionComponent, useState } from "react"
-import { generateThumbnailAndVideoInfo } from "./generate-thumbnail-and-video-info"
-import { OffScreen } from "./off-screen-area.component"
-import { useVideos } from "./use-videos.hook"
-import { Video } from "./video.interface"
+import { generateThumbnailAndVideoInfo } from "../../features/generate-thumbnail-and-video-info"
+import { OffScreenArea } from "../../../foundation/components/off-screen-area/off-screen-area.component"
+import { useVideos } from "../../hooks/use-videos.hook"
+import { Video } from "../../interfaces/video.interface"
 
 const fs = window.require("electron").remote.require("fs")
 const path = window.require("electron").remote.require("path")
@@ -168,7 +167,7 @@ export const Videos: FunctionComponent = () => {
           </Stack>
         </Flex>
       )}
-      <OffScreen />
+      <OffScreenArea />
     </Stack>
   )
 }

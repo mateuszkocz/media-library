@@ -1,8 +1,8 @@
 import { Box, Heading } from "@chakra-ui/core"
 import { Router, Location } from "@reach/router"
 import React, { FunctionComponent } from "react"
-import { Settings } from "./settings.component"
-import { Videos } from "./videos.component"
+import { Settings } from "../../../settings/components/settings/settings.component"
+import { Videos } from "../../../videos/components/videos/videos.component"
 import { AnimatePresence, motion } from "framer-motion"
 
 const FramerRouter: FunctionComponent = ({ children }) => (

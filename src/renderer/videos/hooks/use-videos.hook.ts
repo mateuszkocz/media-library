@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { Subscription } from "rxjs"
-import { DatabaseContext } from "./database.context"
-import { Video } from "./video.interface"
+import { DatabaseContext } from "../../database/context/database.context"
+import { Video } from "../interfaces/video.interface"
 
 type WithId<T> = T & { _id: string }
 

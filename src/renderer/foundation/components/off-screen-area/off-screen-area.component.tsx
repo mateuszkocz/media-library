@@ -12,7 +12,6 @@ export const OFF_SCREEN_AREA_ID = "off-screen-area"
  * rendering canvases and videos that are not meant to be visible or usable
  * by users.
  */
-export const OffScreen: FunctionComponent = () => {
+export const OffScreenArea: FunctionComponent = () => {
   return <OffScreenRoot id={OFF_SCREEN_AREA_ID} />
 }
-

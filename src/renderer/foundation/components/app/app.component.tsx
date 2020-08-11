@@ -1,11 +1,11 @@
 import { CSSReset, Box, Flex, ThemeProvider, Stack } from "@chakra-ui/core"
 import { css, Global } from "@emotion/core"
 import React, { FunctionComponent } from "react"
-import { Content } from "./content.component"
-import { getDatabase } from "./database"
-import { DatabaseProvider } from "./database.provider"
-import { MainMenu } from "./main-menu.component"
-import { theme } from "./theme"
+import { Content } from "../content/content.component"
+import { getDatabase } from "../../../database/features/get-database"
+import { DatabaseProvider } from "../../../database/context/database.provider"
+import { MainMenu } from "../main-menu/main-menu.component"
+import { theme } from "../../theme/theme"
 
 const globalCss = css`
   html,

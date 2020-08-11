@@ -1,4 +1,4 @@
-import { OFF_SCREEN_AREA_ID } from "./off-screen-area.component"
+import { OFF_SCREEN_AREA_ID } from "../../foundation/components/off-screen-area/off-screen-area.component"
 
 export const generateThumbnailAndVideoInfo = (
   fileBuffer: Buffer

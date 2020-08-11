@@ -1,4 +1,4 @@
-import { File } from "./file.interface"
+import { File } from "../../foundation/interfaces/file.interface"
 
 export interface Video {
   file: File
