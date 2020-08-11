@@ -1,6 +1,6 @@
 module.exports = {
   renderer: {
-    entry: ["./src/renderer/javascripts/index.js"],
+    entry: ["./src/renderer/index.js"],
     resolve: {
       extensions: [".js", ".json", ".jsx", ".css", ".ts", ".tsx"],
     },
