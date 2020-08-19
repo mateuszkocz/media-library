@@ -71,7 +71,7 @@ const createFullFilePath = (file: Video["file"]): string => {
 }
 
 export const Videos: FunctionComponent = () => {
-  const { videos, addVideos } = useVideos()
+  const { videos, addVideos, getVideo } = useVideos()
   const [currentVideoPath, setCurrentVideoPath] = useState("")
   const [loading, setLoading] = useState(false)
 
@@ -118,9 +118,12 @@ export const Videos: FunctionComponent = () => {
       {!empty && (
         <SimpleGrid minChildWidth="260px" spacing="20px">
           {videos.map((video) => {
-            const { duration, thumbnails, file, title, favourite, _id } = video
-            const fullFilePath = createFullFilePath(file)
-            const playVideo = () => selectVideo(fullFilePath)
+            const { duration, thumbnails, title, favourite, _id } = video
+            const playVideo = () => {
+              void getVideo(_id)
+                .then(({ file }) => createFullFilePath(file))
+                .then(selectVideo)
+            }
             return (
               <Box key={_id} p={4} borderWidth="1px" rounded="lg">
                 <Image src={thumbnails[0]} alt="" />
